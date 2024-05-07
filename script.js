@@ -1,4 +1,3 @@
-
 let score = 0;
 let currentQuestionIndex = 0;
 const answerButtons = document.getElementById('answer-buttons');
@@ -144,6 +143,8 @@ let highScoreName = hallInput.value;
 function saveHighScore(score,highScoreName) {
     const highScores = getHighScores();
     highScores.push({[highScoreName] : score});
+    highScores.sort((a, b) => b.score - a.score); 
+
     highScores.splice(5); 
     localStorage.setItem('highScores', JSON.stringify(highScores));
 }
@@ -153,29 +154,28 @@ function getHighScores() {
     return scores ? JSON.parse(scores) : [];
 }
 
-function displayHighScores() {
-    const highScores = getHighScores();
-    
-    console.log(highScores);  
-    highScores.forEach(function(eachScore, idx) {
-        console.log(eachScore,idx);
-            // console.log(Object.keys(eachScore));
 
-        // highScore1.innerHTML = eachScore[1].
+function displayHighScores() {
+    const highScores = getHighScores().slice(0, 5);  // Get top 5 scores
+    const highScoreElements = [highScore1, highScore2, highScore3, highScore4, highScore5];
+    highScores.sort((a, b) => b.score - a.score); 
+
+
+    highScores.forEach((score, index) => {
+        if (highScoreElements[index]) {
+            highScoreElements[index].textContent = `${Object.keys(score)[0]}: ${Object.values(score)[0]}`;
+        }
     });
 
+    // Clear any unused high score elements if fewer than 5 scores are available
+    for (let i = highScores.length; i < highScoreElements.length; i++) {
+        if (highScoreElements[i]) {
+            highScoreElements[i].textContent = '';
+        }
+    }
 }
-    // console.log(highScores[0].uyo);
-    // console.log(Object.keys(highScores[0])[0]);
 
-    // (Object.keys(jj)[0]
-
-    // console.log(highScore1[1].score)
-    // highScore1.innerHTML = 'your top high score is ' + highScores[0][hi] + '/'+ questions.length;
-    // highScore2.innerHTML = Object.keys(highScores[0])[0] + highScores[1]['uyo'];
-    // highScore3.innerHTML =`${Object.keys(highScores[0])[0]} scored  ${highScores[2]['uyo']}`;
-    // highScore4.innerHTML = highScores[3]['uyo'];
-    // highScore5.innerHTML = highScores[4]['uyo'];
+    
 
 
 function fame() {
@@ -219,7 +219,7 @@ function showInputValue2(e){
     
 clearTimeout(mytimeout);
 function startQuiz() {
-    clearTimeout(mytimeout);
+    clearTimeout(mytimeout); 
     countdown = 10;
     time(); 
     currentQuestionIndex = 0;
@@ -290,10 +290,10 @@ function selectAnswer(e){
 }
      
 function showScore() {
-    const highScoreName = hallInput.value.trim();  
+    const highScoreName = hallInput.value; 
     if (highScoreName.length === 0) {
         console.error("No name entered");
-        return;  
+        return;  // Optionally handle error or alert the user
     }
 
     resetState();
@@ -351,41 +351,41 @@ function nextQ(){
 
 startQuiz();
 
-// musictxt.addEventListener('click',changeSrc);
-// function changeSrc() {
-//     console.log(musicSrc);
+// // musictxt.addEventListener('click',changeSrc);
+// // function changeSrc() {
+// //     console.log(musicSrc);
 
-//     let changeattribute = musicSrc.getAttribute('src');
-//     console.log(changeattribute);
-//     if (changeattribute.includes('./music/French Montana - Ain\'t Worried About Nothin (Explicit).mp3')) {
-//         console.log('ayra');
-//         musicSrc.setAttribute("src", './music/Rema-Calm-Down.mp3');
-//         console.log(musicSrc);
-//         musicSrc.play();
-//     } else {
-//         console.log('french');
-//         musicSrc.setAttribute("src", "./music/French Montana - Ain\'t Worried About Nothin (Explicit).mp3");
-//         musicSrc.play();
-//     }
-// }
+// //     let changeattribute = musicSrc.getAttribute('src');
+// //     console.log(changeattribute);
+// //     if (changeattribute.includes('./music/French Montana - Ain\'t Worried About Nothin (Explicit).mp3')) {
+// //         console.log('ayra');
+// //         musicSrc.setAttribute("src", './music/Rema-Calm-Down.mp3');
+// //         console.log(musicSrc);
+// //         musicSrc.play();
+// //     } else {
+// //         console.log('french');
+// //         musicSrc.setAttribute("src", "./music/French Montana - Ain\'t Worried About Nothin (Explicit).mp3");
+// //         musicSrc.play();
+// //     }
+// // }
 
-// let jj = {'uyo': 3}
-// // console.log(jj['uyo'])
-// let keys = Object.keys(jj);
-// // console.log(keys[0]);
-// console.log(Object.keys(jj)[0]);
+// // let jj = {'uyo': 3}
+// // // console.log(jj['uyo'])
+// // let keys = Object.keys(jj);
+// // // console.log(keys[0]);
+// // console.log(Object.keys(jj)[0]);
 
-// function cent(year){
-//    let centurydiv = (year/100);
-//    if(Number.isInteger(centurydiv) === true){
-//     return centurydiv ;
-//    }
-//    else if (Number.isInteger(centurydiv) === false){
-//     return Math.floor(centurydiv) + 1;
-//    }
-// }
+// // function cent(year){
+// //    let centurydiv = (year/100);
+// //    if(Number.isInteger(centurydiv) === true){
+// //     return centurydiv ;
+// //    }
+// //    else if (Number.isInteger(centurydiv) === false){
+// //     return Math.floor(centurydiv) + 1;
+// //    }
+// // }
 
-// console.log(cent(1546))
-// console.log(cent(2023))
-// console.log(cent(2000))
-// console.log(cent(1601))
+// // console.log(cent(1546))
+// // console.log(cent(2023))
+// // console.log(cent(2000))
+// // console.log(cent(1601))
