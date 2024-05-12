@@ -55,9 +55,9 @@ body{
 }
 .quizbox{
     background-color:black ;
-    border: solid yellow;
+    border: solid blueviolet;
     border-radius: 10px;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;

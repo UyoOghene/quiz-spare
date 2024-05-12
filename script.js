@@ -1,6 +1,7 @@
 let score = 0;
 let currentQuestionIndex = 0;
 const answerButtons = document.getElementById('answer-buttons');
+const quizQuestions = document.querySelector('.quizquestions');
 const question = document.getElementById('question');
 const questionnum = document.querySelector('.question-num')
 const next = document.getElementById('next');
@@ -22,8 +23,6 @@ const highScore4 = document.querySelector('#high4');
 const highScore5 = document.querySelector('#high5');
 const hallInput = document.querySelector('#hallinput');
 const inputBtn = document.querySelector('#inputBtn');
-
-
 
 const questions =[
     {
@@ -117,18 +116,40 @@ const questions =[
         ]
     }
 ]
-quizBox.style.display = 'none';
-startBtn.addEventListener('click',starterPageFunc);
-startBtn.addEventListener('click',startQuiz);
+let countdown = 10; 
+let highScoreName = hallInput.value;
+let mytimeout = setTimeout(time, 2000);
+
+startBtn.addEventListener('click', startQuiz);
+hallInput.addEventListener('keydown', showInputValue2);
+backButton.addEventListener('click',backbtn);
+hallbtn.addEventListener('click', fame);
+next.addEventListener('click', nextQ);
+inputBtn.addEventListener('click', saveHighScore);
+// musictxt.addEventListener('click', changeSrc);
 
 function starterPageFunc(){
-    console.log('Starting quiz');
-    startPage.style.display = "none";
-    quizBox.style.display = "block";
-    highScoreElement.style.display = 'none'; 
 }
 
-backButton.addEventListener('click',backbtn);
+function startQuiz() {
+    startPage.style.display = "none";
+    console.log('Starting quiz');
+    quizBox.style.display = "block";
+    inputBtn.style.display = 'none';
+    highScoreElement.style.display = 'none'; 
+    countdown = 10;
+    time(); 
+    currentQuestionIndex = 0;
+    score = 0;
+    presentScore.innerHTML = 0;
+    questions.sort(() => Math.random() - 0.5);
+    const selectedQuestions = questions.slice(0, 5);
+    questions.splice(0, questions.length, ...selectedQuestions);
+    next.innerHTML = 'Next';
+    showQuestion();
+}
+
+
 function backbtn(){
     console.log('back');
     startPage.style.display = "block";
@@ -137,10 +158,12 @@ function backbtn(){
 }
 
 
-hallbtn.addEventListener('click',fame);
-let highScoreName = hallInput.value;
+function saveHighScore() {
+    let highScoreName = hallInput.value;
+    console.log('savehigh');
+    console.log(score);
+    console.log(highScoreName);
 
-function saveHighScore(score,highScoreName) {
     const highScores = getHighScores();
     highScores.push({[highScoreName] : score});
     highScores.sort((a, b) => b.score - a.score); 
@@ -153,7 +176,6 @@ function getHighScores() {
     const scores = localStorage.getItem('highScores');
     return scores ? JSON.parse(scores) : [];
 }
-
 
 function displayHighScores() {
     const highScores = getHighScores().slice(0, 5);  // Get top 5 scores
@@ -175,9 +197,6 @@ function displayHighScores() {
     }
 }
 
-    
-
-
 function fame() {
     console.log('Hall of Fame');
     quizBox.style.display = 'none';
@@ -186,8 +205,6 @@ function fame() {
     displayHighScores();
 } 
 
-let countdown = 10; 
-let mytimeout = setTimeout(time, 2000);
 
 function time() {
     timer.innerHTML = 'Time left:' + countdown + 's' ; 
@@ -205,11 +222,8 @@ function time() {
         mytimeout = setTimeout(time, 2000);
     }
 }
-function showInputValue(e){
-    console.log(hallInput.value);
-    }
+
     
-hallInput.addEventListener('keydown', showInputValue2);
 function showInputValue2(e){
         if (e.key === 'Enter') {
             console.log('Enter key was pressed.');
@@ -217,23 +231,6 @@ function showInputValue2(e){
         console.log(hallInput.value);
     }
     
-clearTimeout(mytimeout);
-function startQuiz() {
-    clearTimeout(mytimeout); 
-    countdown = 10;
-    time(); 
-    currentQuestionIndex = 0;
-    score = 0;
-    presentScore.innerHTML = 0;
-    questions.sort(() => Math.random() - 0.5);
-    const selectedQuestions = questions.slice(0, 5);
-    questions.splice(0, questions.length, ...selectedQuestions);
-    next.innerHTML = 'Next';
-    showQuestion();
-    clearTimeout(mytimeout);
-    countdown = 10;
-    time();
-}
 
 function showQuestion(){
     clearTimeout(mytimeout);
@@ -260,7 +257,6 @@ function showQuestion(){
     });
     next.style.display = 'none';
 }
-
 
 function resetState(){
     while(answerButtons.firstChild){
@@ -290,23 +286,18 @@ function selectAnswer(e){
 }
      
 function showScore() {
-    const highScoreName = hallInput.value; 
-    if (highScoreName.length === 0) {
-        console.error("No name entered");
-        return;  // Optionally handle error or alert the user
-    }
-
-    resetState();
-    clearTimeout(mytimeout);
-    timer.style.display = 'none';
-    question.innerHTML = `You scored ${score} out of ${questions.length}!`;
-    saveHighScore(score, highScoreName);
-
+    console.log('showscore')
+    console.log(hallInput.value)
+    quizQuestions.style.display = 'none';
+    inputBtn.style.display = 'block'
+    const totalScore = document.createElement('h1');
+    totalScore.setAttribute('id', 'total-score');
+    quizBox.appendChild(totalScore);
+    totalScore.innerHTML = `You scored ${score} out of ${questions.length}!`;
     const hallOfFameBtn = document.createElement('button');
     hallOfFameBtn.innerText = 'Hall of Fame';
     hallOfFameBtn.classList.add('btn');
     hallOfFameBtn.addEventListener('click', fame);
-
     next.innerHTML = 'Play Again';
     next.style.display = 'block';
     quizBox.appendChild(hallOfFameBtn); 
@@ -322,11 +313,11 @@ function handleNxtbtn() {
         hallInput.style.display = 'block';
         timer.style.display= 'none';
         clearTimeout(mytimeout);
+        console.log('quiz end')
         showScore();
     }
 }
 
-next.addEventListener('click', nextQ);
 
 function nextQ(){
     clearTimeout(mytimeout);
@@ -334,7 +325,7 @@ function nextQ(){
     presentScore.innerHTML = score;
     if (currentQuestionIndex < questions.length) {
         handleNxtbtn();
-        countdown=10;
+        countdown = 10;
         time();
 
     } else {
@@ -349,43 +340,21 @@ function nextQ(){
     }
 }
 
-startQuiz();
 
-// // musictxt.addEventListener('click',changeSrc);
-// // function changeSrc() {
-// //     console.log(musicSrc);
+function changeSrc() {
+    console.log(musicSrc);
 
-// //     let changeattribute = musicSrc.getAttribute('src');
-// //     console.log(changeattribute);
-// //     if (changeattribute.includes('./music/French Montana - Ain\'t Worried About Nothin (Explicit).mp3')) {
-// //         console.log('ayra');
-// //         musicSrc.setAttribute("src", './music/Rema-Calm-Down.mp3');
-// //         console.log(musicSrc);
-// //         musicSrc.play();
-// //     } else {
-// //         console.log('french');
-// //         musicSrc.setAttribute("src", "./music/French Montana - Ain\'t Worried About Nothin (Explicit).mp3");
-// //         musicSrc.play();
-// //     }
-// // }
+    let changeattribute = musicSrc.getAttribute('src');
+    console.log(changeattribute);
+    if (changeattribute.includes('./music/French Montana - Ain\'t Worried About Nothin (Explicit).mp3')) {
+        console.log('ayra');
+        musicSrc.setAttribute("src", './music/Rema-Calm-Down.mp3');
+        console.log(musicSrc);
+        musicSrc.play();
+    } else {
+        console.log('french');
+        musicSrc.setAttribute("src", "./music/French Montana - Ain\'t Worried About Nothin (Explicit).mp3");
+        musicSrc.play();
+    }
+}
 
-// // let jj = {'uyo': 3}
-// // // console.log(jj['uyo'])
-// // let keys = Object.keys(jj);
-// // // console.log(keys[0]);
-// // console.log(Object.keys(jj)[0]);
-
-// // function cent(year){
-// //    let centurydiv = (year/100);
-// //    if(Number.isInteger(centurydiv) === true){
-// //     return centurydiv ;
-// //    }
-// //    else if (Number.isInteger(centurydiv) === false){
-// //     return Math.floor(centurydiv) + 1;
-// //    }
-// // }
-
-// // console.log(cent(1546))
-// // console.log(cent(2023))
-// // console.log(cent(2000))
-// // console.log(cent(1601))
