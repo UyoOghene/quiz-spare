@@ -23,6 +23,8 @@ const highScore4 = document.querySelector('#high4');
 const highScore5 = document.querySelector('#high5');
 const hallInput = document.querySelector('#hallinput');
 const inputBtn = document.querySelector('#inputBtn');
+const playagainBtn = document.querySelector('#playagainbtn');
+
 
 const questions =[
     {
@@ -123,6 +125,7 @@ let mytimeout = setTimeout(time, 2000);
 startBtn.addEventListener('click', startQuiz);
 hallInput.addEventListener('keydown', showInputValue2);
 backButton.addEventListener('click',backbtn);
+playagainBtn.addEventListener('click',playAgain);
 hallbtn.addEventListener('click', fame);
 next.addEventListener('click', nextQ);
 inputBtn.addEventListener('click', saveHighScore);
@@ -135,6 +138,7 @@ function startQuiz() {
     startPage.style.display = "none";
     console.log('Starting quiz');
     quizBox.style.display = "block";
+    quizQuestions.style.display = 'block';
     inputBtn.style.display = 'none';
     highScoreElement.style.display = 'none'; 
     countdown = 10;
@@ -149,27 +153,38 @@ function startQuiz() {
     showQuestion();
 }
 
-
 function backbtn(){
     console.log('back');
     startPage.style.display = "block";
+    inputBtn.style.display = 'none';
+    hallInput.style.display = 'none';
     quizBox.style.display = "none";
-    highScoreElement.style.display = 'none';  
+    highScoreElement.style.display = 'none';
+    playagainBtn.style.display = 'none';
 }
 
+function playAgain(){
+    console.log('back');
+    hallInput.style.display = 'none';
+    inputBtn.style.display = 'none';
+    // hallOfFameBtn.style.display = 'none';
+
+    highScoreElement.style.display = 'none';
+    startPage.style.display = "block";
+    quizBox.style.display = "none"; 
+    playagainBtn.style.display = 'none';
+}
 
 function saveHighScore() {
-    let highScoreName = hallInput.value;
-    console.log('savehigh');
-    console.log(score);
-    console.log(highScoreName);
-
-    const highScores = getHighScores();
-    highScores.push({[highScoreName] : score});
-    highScores.sort((a, b) => b.score - a.score); 
-
-    highScores.splice(5); 
-    localStorage.setItem('highScores', JSON.stringify(highScores));
+    let highScoreName = hallInput.value.trim();
+    if (highScoreName) {
+        const highScores = getHighScores();
+        highScores.push({ name: highScoreName, score: score });
+        highScores.sort((a, b) => b.score - a.score);
+        highScores.splice(5);
+        localStorage.setItem('highScores', JSON.stringify(highScores));
+        displayHighScores();
+    }
 }
 
 function getHighScores() {
@@ -178,18 +193,14 @@ function getHighScores() {
 }
 
 function displayHighScores() {
-    const highScores = getHighScores().slice(0, 5);  // Get top 5 scores
+    const highScores = getHighScores().slice(0, 5);  
     const highScoreElements = [highScore1, highScore2, highScore3, highScore4, highScore5];
-    highScores.sort((a, b) => b.score - a.score); 
-
-
     highScores.forEach((score, index) => {
         if (highScoreElements[index]) {
-            highScoreElements[index].textContent = `${Object.keys(score)[0]}: ${Object.values(score)[0]}`;
+            highScoreElements[index].textContent = `${Object.values(score)[0]}: ${Object.values(score)[1]}`;
         }
     });
 
-    // Clear any unused high score elements if fewer than 5 scores are available
     for (let i = highScores.length; i < highScoreElements.length; i++) {
         if (highScoreElements[i]) {
             highScoreElements[i].textContent = '';
@@ -204,7 +215,6 @@ function fame() {
     highScoreElement.style.display = 'block'; 
     displayHighScores();
 } 
-
 
 function time() {
     timer.innerHTML = 'Time left:' + countdown + 's' ; 
@@ -222,17 +232,21 @@ function time() {
         mytimeout = setTimeout(time, 2000);
     }
 }
-
-    
+ 
 function showInputValue2(e){
-        if (e.key === 'Enter') {
+
+        if (e.key === 'Enter'  ) {
             console.log('Enter key was pressed.');
+            inputBtn.style.display = 'none';
+            console.log(hallInput.value);
+            hallInput.style.display = 'none';
         }
-        console.log(hallInput.value);
+        
     }
     
 
 function showQuestion(){
+    
     clearTimeout(mytimeout);
     timer.style.display ='block';
     resetState();
@@ -298,8 +312,8 @@ function showScore() {
     hallOfFameBtn.innerText = 'Hall of Fame';
     hallOfFameBtn.classList.add('btn');
     hallOfFameBtn.addEventListener('click', fame);
-    next.innerHTML = 'Play Again';
-    next.style.display = 'block';
+    playagainBtn.style.display = 'block';
+    next.style.display = 'none';
     quizBox.appendChild(hallOfFameBtn); 
     quizBox.appendChild(next);
 }
