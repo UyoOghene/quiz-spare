@@ -1,221 +1,316 @@
-body{
-    margin: 0;
-    padding: 0;
-    background-color:#11153a ;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap');
 
-#starth1{
-    font: 2em sans-serif;
-    background-color: blueviolet;
-    color: white;
-    padding: 10px;
+        :root {
+            --primary: #f4ebf3;
+            --secondary: #3789ed;
+            --accent: #003a70;
+            --background: #336a9d;
+            --text: #ffffff;
+            --correct: #4caf50;
+            --incorrect: #f44336;
+            --button-hover: #3d7dca;
+        }
 
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            /* background-image: url('images/pokeball.png'); */
+        }
 
-.container{
-    background-color:#11153a ;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: 100%;
-    height: 100vh;
-}
-#high-scores{
-    border: 3px solid white;
-    width: 25em;
-    height: 35em;
-}
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
 
-.high{
-    color: black;
-    font-size: large;
-    background-color: aliceblue;
-    border-radius: 10px;
-    border: 3px solid palevioletred;
+        /* Start Page Styles */
+        #start-page {
+            background-color: var(--accent);
+            border: 5px solid var(--primary);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
 
-}
+        #start-page:hover {
+            transform: scale(1.02);
+        }
 
-#start-page{
-    background-color:black ;
-    border: solid yellow;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 60rem;
-    height: 30rem;
-   
-}
-.quizbox{
-    background-color:black ;
-    border: solid blueviolet;
-    border-radius: 10px;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 60rem;
-    height: 30rem;
-}
+        #starth1 {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 0 var(--accent), 
+                        5px 5px 0 rgba(0, 0, 0, 0.2);
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+        }
 
-.quizbox h1{
-    color: pink;
-}
+        .buts {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
 
+        /* Quiz Box Styles */
+        .quizbox {
+            background-color: var(--accent);
+            border: 5px solid var(--primary);
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            display: none;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
 
-button{
-    border-radius: 20px;
-    padding: 3px;
-    border: 3px solid pink ;
-    background: white;
-    margin: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: large;
-    
-}
-button:hover:not([disabled]) {
-    background-color: gray;
-}
+        .quizquestions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
 
-.correct {
-    background-color: rgb(4, 139, 4);
-}
-.incorrect {
-    background-color: rgb(197, 59, 59);
+        .question-num {
+            background-color: var(--primary);
+            color: var(--accent);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
 
-}
-#answer-buttons{
-    width: 60%;
-    display: flex;
-    flex-direction: column ;
-    justify-content: center;
+        #question {
+            color: var(--primary);
+            font-size: 1.5rem;
+            text-align: center;
+            margin: 15px 0;
+            font-family: 'Press Start 2P', cursive;
+            line-height: 1.4;
+        }
 
-}
+        #answer-buttons {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
 
-#next {
-    background-color: rgb(19, 82, 136);
-    width: 50%;
-}
-#next:hover{
-    background-color: aliceblue;
-}
+        .btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
 
-.quizquestions{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.question-num{
-    background-color: antiquewhite;
-    padding: 5px;
-    margin: 0;
-}
-#presentScore{
-    margin: 0;
-    background-color: aliceblue;
-    width: 20px;
-}
+        .btn:hover:not([disabled]) {
+            background-color: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
 
-h2{
-    background-color: antiquewhite;
-    border-radius: 20px;
-    padding: 5px;
-    border: 3px solid yellow ;
-    background: white;
+        .btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
 
-}
+        .correct {
+            background-color: var(--correct);
+        }
 
-#musictxt{
-    color: black;
-    border: 5px solid white;
-    border-radius: 20px;
-    margin: 0;
-    background-color: aliceblue;
-}
+        .incorrect {
+            background-color: var(--incorrect);
+        }
 
-#musictxt:hover{
-    background-color: lightblue;
+        /* Timer Styles */
+        .timer {
+            background-color: var(--primary);
+            color: var(--accent);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
 
-}
+        /* Score Display */
+        #presentScore {
+            background-color: var(--primary);
+            color: var(--accent);
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: inline-block;
+            min-width: 30px;
+            text-align: center;
+        }
 
-.music{
-    width: 10em;
-    height: 3em;
-    display: flex;
-    flex-direction: column ;
-    justify-content: center;
-    align-items: center;
-    margin: 5px;
+        /* Navigation Buttons */
+        #next, #inputBtn, #back, #playagainbtn {
+            background-color: var(--primary);
+            color: var(--accent);
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
 
-}
+        #next:hover, #inputBtn:hover, #back:hover, #playagainbtn:hover {
+            background-color: #ffd700;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
 
+        /* Hall of Fame Styles */
+        #high-scores {
+            background-color: var(--accent);
+            border: 5px solid var(--primary);
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            display: none;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
 
-/* Tablets and under */
-@media (max-width:768px) {
-    .container{
-        background-color:#11153a ;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        width: 100%;
-        height: 100vh;
-    }
-    .quizbox{
-        width: 18rem;
-        height: 20rem;
-        display: flex;
-        flex-direction: column ;
-        justify-content: center;
-    
-    }
+        #high-scores h1 {
+            color: var(--primary);
+            font-family: 'Press Start 2P', cursive;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
 
-    #start-page{
-        width: 18rem;
-        height: 20rem;
+        .high {
+            background-color: var(--primary);
+            color: var(--accent);
+            padding: 10px;
+            margin: 10px auto;
+            border-radius: 10px;
+            font-weight: bold;
+            max-width: 80%;
+            font-size: 1.1rem;
+        }
 
-    }
+        /* Input Styles */
+        #hallinput {
+            padding: 12px;
+            border-radius: 10px;
+            border: 3px solid var(--primary);
+            font-size: 1rem;
+            width: 80%;
+            max-width: 300px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
 
-    #starth1{
-        font: 2em sans-serif;
-        background-color: blueviolet;
-        color: white;
-        padding: 10px;
+        /* Music Control */
+        .music {
+            margin-top: 20px;
+        }
 
-    }
-    button{
-        padding: 3px;
-        border: 3px solid pink ;
-        margin: 3px;
-    }
-    h1{
-        font-size: 15px;
-    }
+        #musictxt {
+            background-color: var(--primary);
+            color: var(--accent);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
 
-    h2{
-        padding: 3px;
-        border: 2px solid pink ;
-        line-height: 1em;
-    
-    }
-    
-    
-    #musictxt{
-        color: black;
-        border: 5px solid white;
-        border-radius: 20px;
-        margin: 0;
-        background-color: aliceblue;
-    }
-    
-      
-}
+        #musictxt:hover {
+            background-color: #ffd700;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #starth1 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            #start-page, .quizbox, #high-scores {
+                padding: 20px;
+            }
+
+            #question {
+                font-size: 1.2rem;
+            }
+
+            .btn {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #starth1 {
+                font-size: 1.2rem;
+            }
+
+            .buts {
+                flex-direction: column;
+            }
+
+            #question {
+                font-size: 1rem;
+            }
+
+            .high {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Pokemon Theme Elements */
+        .pokeball {
+            width: 40px;
+            height: 40px;
+            background-image: url('images/pokeball.png');
+            background-size: contain;
+            margin: 0 auto 20px;
+        }
